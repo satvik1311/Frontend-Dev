@@ -106,6 +106,8 @@ main{
         align-items: center;
 
     }
+    .NUM:hover, .OP:hover, .AC:hover {
+        background-color: #555f7a;
 
 
    

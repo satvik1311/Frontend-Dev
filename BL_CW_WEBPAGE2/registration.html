@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registration</title>
+  <link rel="stylesheet" href="29-10-25.css" />
+</head>
+<body>
+  <div class="container">
+    <form class="registration-form">
+      <h1>REGISTRATION</h1>
+
+      <div class="name-row">
+        <div class="input-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" placeholder="" />
+        </div>
+        <div class="input-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" placeholder="" />
+        </div>
+      </div>
+
+      <div class="input-group full-width">
+        <label for="faculty">Faculty</label>
+        <div class="select-wrapper">
+          <select id="faculty">
+            <option value="" disabled selected></option>
+            <option>Science</option>
+            <option>Engineering</option>
+            <option>Arts</option>
+            <option>Business</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-group full-width">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="" />
+      </div>
+
+      <div class="login-link">
+        <a href="#">Already have an account? Sign In</a>
+      </div>
+
+      <button type="submit" class="register-btn">Register</button>
+    </form>
+  </div>
+</body>
+</html>

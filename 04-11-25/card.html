@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Credit</title>
+    <style>
+        /* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Body styling */
+body {
+    background-color: #3b3a47; /* dark gray background like in image */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header */
+.credit-header {
+    margin-top: 50px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.credit-header h1 {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+/* Plans container */
+.plan {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 25px;
+    flex-wrap: wrap;
+    width: 90%;
+}
+
+/* Each plan box */
+.plan section {
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    width: 230px;
+    text-align: center;
+    padding: 25px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover animation */
+.plan section:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Credit number and label */
+.big {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #000;
+}
+
+.small {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+/* Description */
+.plan p {
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+/* Price */
+.price h1 {
+    font-size: 1.6rem;
+    color: #111;
+    margin-top: 20px;
+    font-weight: 700;
+}
+
+/* Button */
+.btn button {
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 10px 25px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn button:hover {
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+}
+
+/* Recommended (highlighted) plan */
+.plan-2 {
+    background-color: #e6fff1;
+    border: 2px solid #00c46a;
+    position: relative;
+}
+
+/* "Recommended" label above 500 credits */
+.plan-2::before {
+    content: "Recommended";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #00c46a;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    
+}
+
+/* Green button for recommended */
+.plan-2 .btn button {
+    background-color: #00c46a;
+    color: white;
+    border: none;
+}
+
+.plan-2 .btn button:hover {
+    background-color: #00a65a;
+}
+
+/* "Buy Now" button at bottom */
+.buy-now {
+    margin-top: 40px;
+}
+
+.buy-now button {
+    background-color: #00c46a;
+    color: #fff;
+    font-size: 1rem;
+    border: none;
+    
+    padding: 12px 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.buy-now button:hover {
+    background-color: #009e53;
+}
+    </style>
+</head>
+<body>
+    <div class="credit-header">
+        <h1>Add Credits</h1>
+    </div>
+    <div class="plan">
+    <section class="plan-1">
+        <div class="plan-header">
+            <h2><span class="big">200</span> <span class="small">Credits</span></h2>
+        </div>
+        <div>
+            <p>Starter pack to help you to get started</p>
+        </div>
+        <div class="price">
+            <h1>$100</h1>
+        </div>
+        <div class="btn">
+            <button>Choose Plan</button>
+        </div>
+    </section>
+    <section class="plan-2">
+        <div>
+            <h2><span class="big">200</span> <span class="small">Credits</span></h2>
+        </div>
+        <div>
+            <p>Starter pack to help you to get started</p>
+        </div>
+        <div class="price">
+            <h1>$100</h1>
+        </div>
+        <div class="btn">
+            <button>Choose Plan</button>
+        </div>
+    </section>
+    <section class="plan-3">
+        <div>
+            <h2><span class="big">200</span> <span class="small">Credits</span></h2>
+        </div>
+        <div>
+            <p>Starter pack to help you to get started</p>
+        </div>
+        <div class="price">
+            <h1>$100</h1>
+        </div>
+        <div class="btn">
+            <button>Choose Plan</button>
+        </div>
+    </section>
+    <section class="plan-4">
+        <div>
+            <h2><span class="big">200</span> <span class="small">Credits</span></h2>
+        </div>
+        <div>
+            <p>Starter pack to help you to get started</p>
+        </div>
+        <div class="price">
+            <h1>$100</h1>
+        </div>
+        <div class="btn">
+            <button >Choose Plan</button>
+        </div>
+    </section>
+    </div>
+    <div class="buy-now">
+    <button>Buy Now</button>
+</div>
+</body>
+</html>

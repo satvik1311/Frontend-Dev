@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Counter App</title>
+</head>
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #585353;
+    }
+    .SCA{
+        width: 600px;
+        height: 700px;
+        background-color: #dca0a0;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .Dec{
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #ff4d4d;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .Reset{
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4d94ff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .Inc{
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4dff88;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .boxx{
+        display: flex;
+        justify-content: center;
+        align-items: center;    }
+        h1{
+            margin-bottom: 80px;
+        }
+        h2{
+            margin-bottom: 80px;
+            font-size: 80px;
+        }
+
+</style>
+
+<body>
+    <div class="box">
+        <div class="SCA">
+            <h1>Simple Counter App</h1>
+            <h2 id="count">0</h2>
+           <div class="boxx"> <button class="Dec" onclick="decrement()">- Decrease</button>
+            <button class="Reset" onclick="Reset()"> Reset </button> </div>
+            <button class="Inc" onclick="increment()">+ Increase</button>
+
+            <script>
+                let count = 0;
+                const countEl = document.getElementById('count');
+
+                function increment() {
+                    count++;
+                    countEl.innerText = count;
+                }
+
+                function decrement() {
+                    count--;
+                    countEl.innerText = count;
+                }
+                function Reset() {
+                    count = 0;
+                    countEl.innerText = count;
+                }
+            </script>
+
+
+        </div>
+
+    </div>
+    
+    
+</body>
+</html>

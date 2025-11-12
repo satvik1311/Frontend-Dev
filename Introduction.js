@@ -30,3 +30,8 @@
 
 // let array = { name: "Satvik", age: 21, role: "Developer" };
 // console.table(array);
+//   let data = 48;
+//         let nu = 48n;
+//         console.log(nu+data)
+let bigdata = BigInt(1234567890123456789012345678901234567890);
+       console.log(bigdata);  

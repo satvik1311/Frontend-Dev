@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Generator</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #757575;
+    }
+    .box{
+        width: 600px;
+        height: 700px;
+        background-color: #a4bbde;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        font-size: 48px;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    h1{
+        text-align: center;
+        padding: 20px;
+        font-size: 60px;
+        
+    }
+    h2{
+        text-align: center;
+        padding: 20px;
+        font-size: 48px;
+        
+    }
+    
+    .blue{
+        margin: 20px;
+        padding: 15px 30px;
+        font-size: 24px;
+        border: none;
+        border-radius: 5px;
+        background-color: #1e90ff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .nd{
+        font-size: 72px;
+        margin: 20px;
+        color: red;
+    }
+   
+
+</style>
+<body>
+    <div class="box">
+        <h1>
+            Random Number Generator         
+        </h1>
+        <h2 class="nd" id="numberDisplay">
+            0    
+        </h2>
+        <button class="blue" onclick="Generate()">Generate Number</button>
+
+    </div>
+
+    <script>
+        function Generate(){
+            let randomNumber = Math.floor(Math.random() * 1000) + 1; // Generates a number between 1 and 100
+            document.getElementById("numberDisplay").innerText = randomNumber;
+        }
+
+
+    </script>
+    
+</body>
+</html>

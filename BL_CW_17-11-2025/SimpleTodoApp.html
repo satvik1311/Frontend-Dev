@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Todo App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #333;
+      font-size: 1.8rem;
+    }
+
+    .input-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .add-btn {
+      padding: 12px 20px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .add-btn:hover {
+      background: #5a6fd8;
+    }
+
+    .add-btn:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
+    ul {
+      list-style: none;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    ul::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ul::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 3px;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background: #f9f9f9;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      transition: all 0.3s;
+      word-break: break-word;
+    }
+
+    li:hover {
+      background: #f0f0f0;
+    }
+
+    li.completed {
+      opacity: 0.7;
+      text-decoration: line-through;
+      background: #e0f7fa;
+    }
+
+    li span {
+      flex: 1;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .actions button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .complete-btn {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .complete-btn:hover {
+      background: #45a049;
+    }
+
+    .delete-btn {
+      background: #f44336;
+      color: white;
+    }
+
+    .delete-btn:hover {
+      background: #da190b;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 480px) {
+      .box {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      .input-container {
+        flex-direction: column;
+      }
+      .add-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h1>Todo App</h1>
+
+    <div class="input-container">
+      <input type="text" id="inputData" placeholder="What needs to be done?" autocomplete="off" />
+      <button class="add-btn" id="addBtn">Add Task</button>
+    </div>
+
+    <ul id="list">
+      <!-- Tasks will be injected here -->
+    </ul>
+  </div>
+
+  <script>
+    const input = document.getElementById("inputData");
+    const addBtn = document.getElementById("addBtn");
+    const list = document.getElementById("list");
+
+    // Load tasks from localStorage
+    function loadTasks() {
+      const saved = localStorage.getItem("todos");
+      if (saved) {
+        list.innerHTML = saved;
+        attachEventListeners();
+      } else {
+        list.innerHTML = '<p class="empty-state">No tasks yet. Add one above!</p>';
+      }
+    }
+
+    // Save tasks to localStorage
+    function saveTasks() {
+      if (list.children.length === 0 || (list.children.length === 1 && list.children[0].classList.contains('empty-state'))) {
+        localStorage.removeItem("todos");
+      } else {
+        localStorage.setItem("todos", list.innerHTML);
+      }
+    }
+
+    // Add new task
+    function addTask() {
+      const taskText = input.value.trim();
+      if (!taskText) {
+        alert("Please enter a task!");
+        return;
+      }
+
+      // Remove empty state if exists
+      if (list.querySelector('.empty-state')) {
+        list.innerHTML = '';
+      }
+
+      const li = document.createElement("li");
+
+      const span = document.createElement("span");
+      span.textContent = taskText;
+      span.addEventListener("click", toggleComplete);
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      const completeBtn = document.createElement("button");
+      completeBtn.textContent = "✓";
+      completeBtn.className = "complete-btn";
+      completeBtn.title = "Mark as complete";
+      completeBtn.addEventListener("click", () => {
+        li.classList.toggle("completed");
+        saveTasks();
+      });
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "✕";
+      deleteBtn.className = "delete-btn";
+      deleteBtn.title = "Delete task";
+      deleteBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to delete this task?")) {
+          li.remove();
+          saveTasks();
+          if (list.children.length === 0) {
+            list.innerHTML = '<p class="empty-state">No tasks yet. Add one above!</p>';
+          }
+        }
+      });
+
+      actions.appendChild(completeBtn);
+      actions.appendChild(deleteBtn);
+
+      li.appendChild(span);
+      li.appendChild(actions);
+      list.appendChild(li);
+
+      input.value = "";
+      saveTasks();
+    }
+
+    // Toggle complete on text click
+    function toggleComplete(e) {
+      e.target.parentElement.classList.toggle("completed");
+      saveTasks();
+    }
+
+    // Re-attach event listeners after loading from storage
+    function attachEventListeners() {
+      list.querySelectorAll("li span").forEach(span => {
+        span.addEventListener("click", toggleComplete);
+      });
+      list.querySelectorAll(".complete-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          btn.closest("li").classList.toggle("completed");
+          saveTasks();
+        });
+      });
+      list.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          if (confirm("Delete this task?")) {
+            btn.closest("li").remove();
+            saveTasks();
+            if (list.children.length === 0) {
+              list.innerHTML = '<p class="empty-state">No tasks yet. Add one above!</p>';
+            }
+          }
+        });
+      });
+    }
+
+    // Event Listeners
+    addBtn.addEventListener("click", addTask);
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") addTask();
+    });
+
+    // Enable/disable button based on input
+    input.addEventListener("input", () => {
+      addBtn.disabled = input.value.trim() === "";
+    });
+
+    // Initialize
+    loadTasks();
+    addBtn.disabled = true;
+  </script>
+
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimpleTodoApp</title>
+</head>
+ <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+body{
+    height:100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #968484;
+}
+.box{
+    width:400px;
+    height:400px;
+    background-color: rgb(235, 122, 122);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    padding:20px;
+    text-align: center;
+}
+h1{
+    margin-bottom:20px;
+    color:#000000;
+}
+input{
+    width:70%;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+    margin-right:10px;
+}
+.AT{
+    padding:10px 15px;
+    border:none;
+    border-radius:5px;
+    background-color: #4CAF50;
+    color:#fff;
+    cursor:pointer;
+}
+
+</style>
+
+<body>
+    
+    <div class="box">
+        <h1>Simple Todo App</h1>
+        <input type="text" id="inputData" placeholder="Add your task here">
+        <button class="AT" onclick="summit()">Add Task</button>
+        <ul id="list"></ul>
+
+    </div>
+    <script>
+    function summit(){
+        let inputData=document.getElementById("inputData").value;
+        let li=document.createElement("li");
+        li.innerText=inputData;
+        let ul=document.getElementById("list");
+        
+       //delete task
+       
+        let btn = document.createElement("button");
+        btn.style.marginLeft="20px";
+        btn.style.backgroundColor="blue";
+        btn.style.color="Black";
+        btn.style.border="none";
+        btn.borderRadius="5px";
+        btn.innerText="Delete";
+        btn.addEventListener("click",function(){
+            li.remove();
+
+         });
+        li.appendChild(btn);
+        ul.appendChild(li);
+    }
+    </script>
+
+    
+</body>
+</html> -->

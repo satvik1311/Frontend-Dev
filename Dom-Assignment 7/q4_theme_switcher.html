@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Theme Switcher</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        transition: 0.3s;
+    }
+
+    button {
+        padding: 10px 15px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    /* THEMES */
+    body[data-theme="light"] {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    body[data-theme="dark"] {
+        background: #111;
+        color: #ffffff;
+    }
+
+    body[data-theme="blue"] {
+        background: #007bff;
+        color: white;
+    }
+
+</style>
+
+</head>
+<body data-theme="light">
+
+<h2>Theme Switcher</h2>
+
+<button data-set="light">Light Theme</button>
+<button data-set="dark">Dark Theme</button>
+<button data-set="blue">Blue Theme</button>
+
+<script>
+"use strict";
+
+// All theme buttons
+const buttons = document.querySelectorAll("button");
+
+// Add event listeners
+buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const newTheme = btn.getAttribute("data-set");
+
+        // Set theme using setAttribute()
+        document.body.setAttribute("data-theme", newTheme);
+    });
+});
+</script>
+
+</body>
+</html>

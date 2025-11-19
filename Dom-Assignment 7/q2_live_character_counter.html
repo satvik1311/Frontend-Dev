@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Live Character Counter</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+
+    textarea {
+        width: 300px;
+        height: 120px;
+        padding: 10px;
+        font-size: 16px;
+        resize: none;
+    }
+
+    #counter {
+        margin-top: 8px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    /* default = green */
+    #counter.normal {
+        color: green;
+    }
+
+    /* yellow warning */
+    #counter.warning {
+        color: orange;
+    }
+
+    /* red for limit reached */
+    #counter.danger {
+        color: red;
+    }
+
+    #resetBtn {
+        margin-top: 10px;
+        padding: 8px 15px;
+        cursor: pointer;
+    }
+</style>
+
+</head>
+<body>
+
+<h2>Live Character Counter</h2>
+
+<textarea id="textBox" maxlength="100"></textarea>
+<div id="counter" class="normal">100 characters left</div>
+
+<button id="resetBtn">Reset</button>
+
+<script>
+"use strict";
+
+const textBox = document.getElementById("textBox");
+const counter = document.getElementById("counter");
+const resetBtn = document.getElementById("resetBtn");
+
+const MAX = 100;
+
+// Live counter update
+textBox.addEventListener("input", (e) => {
+    let text = textBox.value;
+
+    // If typing more than 100 chars, prevent it
+    if (text.length > MAX) {
+        textBox.value = text.substring(0, MAX);
+        return;
+    }
+
+    let remaining = MAX - text.length;
+
+    counter.textContent = `${remaining} characters left`;
+
+    // Update colors
+    counter.className = "normal";
+
+    if (remaining <= 20 && remaining > 0) {
+        counter.className = "warning";
+    }
+
+    if (remaining === 0) {
+        counter.className = "danger";
+    }
+});
+
+// Prevent further typing when limit reached
+textBox.addEventListener("keydown", (e) => {
+    if (textBox.value.length >= MAX && 
+        e.key !== "Backspace" && 
+        e.key !== "Delete" &&
+        !e.ctrlKey) {
+
+        e.preventDefault(); // stop typing
+    }
+});
+
+// Reset button
+resetBtn.addEventListener("click", () => {
+    textBox.value = "";
+    counter.textContent = "100 characters left";
+    counter.className = "normal";
+});
+</script>
+
+</body>
+</html>

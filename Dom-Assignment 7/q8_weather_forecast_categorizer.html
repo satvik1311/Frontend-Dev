@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Weather Forecast Categorizer</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    input {
+        width: 200px;
+        padding: 8px;
+        font-size: 16px;
+    }
+    button {
+        padding: 8px 15px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    #result {
+        margin-top: 15px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<h2>Weather Forecast Categorizer</h2>
+
+<input type="number" id="tempInput" placeholder="Enter temperature (°C)">
+<button onclick="categorizeTemp()">Check Weather</button>
+
+<p id="result"></p>
+
+<script>
+"use strict";
+
+function categorizeTemp() {
+    const temp = Number(document.getElementById("tempInput").value);
+    const result = document.getElementById("result");
+
+    if (isNaN(temp)) {
+        result.textContent = "Please enter a valid temperature!";
+        result.style.color = "red";
+        return;
+    }
+
+    let message = "";
+    let color = "black";
+
+    if (temp <= 0) {
+        message = "Freezing Weather ❄️";
+        color = "blue";
+    } 
+    else if (temp > 0 && temp <= 15) {
+        message = "Cold Weather 🧥";
+        color = "cyan";
+    } 
+    else if (temp > 15 && temp <= 30) {
+        message = "Warm Weather ☀️";
+        color = "orange";
+    } 
+    else if (temp > 30) {
+        message = "Hot Weather 🔥";
+        color = "red";
+    }
+
+    result.textContent = message;
+    result.style.color = color;
+}
+</script>
+
+</body>
+</html>

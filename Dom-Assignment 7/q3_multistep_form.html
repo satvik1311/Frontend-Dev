@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Multi-Step Form</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+
+    .step {
+        display: none;
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .step.active {
+        display: block;
+    }
+
+    input {
+        width: 250px;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 8px 15px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    #summary {
+        background: #f2f2f2;
+        padding: 20px;
+        border-radius: 8px;
+        font-size: 18px;
+    }
+
+    .error {
+        color: red;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+</style>
+
+</head>
+<body>
+
+<h2>Multi-Step Form</h2>
+
+<!-- STEP 1 -->
+<div class="step active" id="step1">
+    <h3>Step 1: Enter Name</h3>
+    <div class="error" id="err1"></div>
+    <input type="text" id="nameInput" placeholder="Your Name">
+    <br>
+    <button id="next1">Next</button>
+</div>
+
+<!-- STEP 2 -->
+<div class="step" id="step2">
+    <h3>Step 2: Enter Email</h3>
+    <div class="error" id="err2"></div>
+    <input type="email" id="emailInput" placeholder="Your Email">
+    <br>
+    <button id="back2">Back</button>
+    <button id="next2">Next</button>
+</div>
+
+<!-- STEP 3 -->
+<div class="step" id="step3">
+    <h3>Step 3: Enter Password</h3>
+    <div class="error" id="err3"></div>
+    <input type="password" id="passwordInput" placeholder="Password">
+    <br>
+    <button id="back3">Back</button>
+    <button id="finish">Finish</button>
+</div>
+
+<!-- FINAL SUMMARY -->
+<div class="step" id="finalStep">
+    <h3>Form Summary</h3>
+    <div id="summary"></div>
+</div>
+
+<script>
+"use strict";
+
+function showStep(stepId) {
+    document.querySelectorAll(".step").forEach(step => step.classList.remove("active"));
+    document.getElementById(stepId).classList.add("active");
+}
+
+// Elements
+const nameInput = document.getElementById("nameInput");
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
+
+// Error elements
+const err1 = document.getElementById("err1");
+const err2 = document.getElementById("err2");
+const err3 = document.getElementById("err3");
+
+// NEXT (Step 1 → Step 2)
+document.getElementById("next1").addEventListener("click", () => {
+    if (nameInput.value.trim() === "") {
+        err1.textContent = "Name is required!";
+        return;
+    }
+    err1.textContent = "";
+    showStep("step2");
+});
+
+// BACK (Step 2 → Step 1)
+document.getElementById("back2").addEventListener("click", () => {
+    showStep("step1");
+});
+
+// NEXT (Step 2 → Step 3)
+document.getElementById("next2").addEventListener("click", () => {
+    const email = emailInput.value.trim();
+    if (email === "" || !email.includes("@")) {
+        err2.textContent = "Valid email is required!";
+        return;
+    }
+    err2.textContent = "";
+    showStep("step3");
+});
+
+// BACK (Step 3 → Step 2)
+document.getElementById("back3").addEventListener("click", () => {
+    showStep("step2");
+});
+
+// FINISH (Show Summary)
+document.getElementById("finish").addEventListener("click", () => {
+    const pass = passwordInput.value.trim();
+
+    if (pass.length < 6) {
+        err3.textContent = "Password must be at least 6 characters!";
+        return;
+    }
+    err3.textContent = "";
+
+    // Show summary
+    const summary = `
+        <strong>Name:</strong> ${nameInput.value}<br><br>
+        <strong>Email:</strong> ${emailInput.value}<br><br>
+        <strong>Password:</strong> ${passwordInput.value}
+    `;
+
+    document.getElementById("summary").innerHTML = summary;
+
+    showStep("finalStep");
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dynamic Product List Manager</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    #productInput {
+        padding: 8px;
+        width: 250px;
+    }
+    #addBtn {
+        padding: 8px 15px;
+        cursor: pointer;
+    }
+    ul {
+        margin-top: 20px;
+        padding: 0;
+        list-style: none;
+    }
+    li {
+        padding: 8px;
+        background: #eee;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .text {
+        min-width: 100px;
+        padding: 4px;
+    }
+    .text[contenteditable="true"] {
+        background: #fff;
+        border: 1px solid #aaa;
+    }
+</style>
+
+</head>
+<body>
+
+<h2>Product List Manager</h2>
+
+<input type="text" id="productInput" placeholder="Add product...">
+<button id="addBtn">Add</button>
+
+<ul id="productList"></ul>
+
+<script>
+"use strict";
+
+const input = document.getElementById("productInput");
+const productList = document.getElementById("productList");
+const addBtn = document.getElementById("addBtn");
+
+// Add product
+addBtn.addEventListener("click", () => {
+    const value = input.value.trim();
+    if (!value) return;
+
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+        <span class="text">${value}</span>
+        <span>
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+        </span>
+    `;
+
+    productList.appendChild(li);
+    input.value = "";
+});
+
+// EVENT DELEGATION
+productList.addEventListener("click", function (e) {
+    const target = e.target;
+
+    // DELETE
+    if (target.classList.contains("delete-btn")) {
+        target.closest("li").remove();
+        return;
+    }
+
+    // EDIT
+    if (target.classList.contains("edit-btn")) {
+        const span = target.closest("li").querySelector(".text");
+
+        // Enable edit
+        span.contentEditable = "true";
+        span.focus();
+
+        // Select only text inside the span
+        const range = document.createRange();
+        range.selectNodeContents(span);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+
+        // ENTER to save
+        const finishEdit = () => {
+            span.contentEditable = "false";
+            span.removeEventListener("keydown", keyListener);
+        };
+
+        const keyListener = (ev) => {
+            if (ev.key === "Enter") {
+                ev.preventDefault();
+                finishEdit();
+            }
+        };
+
+        span.addEventListener("keydown", keyListener);
+
+        // Click outside to save (delay prevents instant close)
+        setTimeout(() => {
+            const saveOutside = (ev2) => {
+                if (ev2.target !== span) {
+                    finishEdit();
+                    document.removeEventListener("click", saveOutside);
+                }
+            };
+            document.addEventListener("click", saveOutside);
+        }, 0);
+    }
+});
+</script>
+
+</body>
+</html>

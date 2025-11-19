@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Real-Time Table Filter</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+
+    input {
+        width: 250px;
+        padding: 8px;
+        margin-bottom: 15px;
+    }
+
+    table {
+        width: 400px;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #noResults {
+        margin-top: 10px;
+        color: red;
+        display: none;
+        font-weight: bold;
+    }
+</style>
+
+</head>
+<body>
+
+<h2>Student Table Filter</h2>
+
+<input type="text" id="searchBox" placeholder="Search student...">
+
+<table id="studentTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Branch</th>
+            <th>CGPA</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>Rahul</td><td>CSE</td><td>8.2</td></tr>
+        <tr><td>Aditi</td><td>ECE</td><td>8.9</td></tr>
+        <tr><td>Mohit</td><td>ME</td><td>7.5</td></tr>
+        <tr><td>Kajal</td><td>CSE</td><td>9.1</td></tr>
+        <tr><td>Riya</td><td>IT</td><td>8.4</td></tr>
+        <tr><td>Sameer</td><td>CIVIL</td><td>6.9</td></tr>
+    </tbody>
+</table>
+
+<div id="noResults">No results found</div>
+
+<script>
+"use strict";
+
+const searchBox = document.getElementById("searchBox");
+const table = document.getElementById("studentTable");
+const rows = table.getElementsByTagName("tr");
+const noResults = document.getElementById("noResults");
+
+// Search filter event
+searchBox.addEventListener("input", () => {
+
+    const query = searchBox.value.toLowerCase();
+    let visibleCount = 0;
+
+    // Loop through table rows (skip header)
+    for (let i = 1; i < rows.length; i++) {
+        const rowText = rows[i].textContent.toLowerCase();
+
+        if (rowText.includes(query)) {
+            rows[i].style.display = "";
+            visibleCount++;
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+
+    // Show "no results"
+    noResults.style.display = visibleCount === 0 ? "block" : "none";
+});
+</script>
+
+</body>
+</html>
